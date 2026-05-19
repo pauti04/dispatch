@@ -1,5 +1,10 @@
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
+// Static-mode fallback — when VITE_API_URL is unset OR a fetch fails, the
+// demo deploy falls back to a baked-in sample brief so /demo, /today, and the
+// landing's "today's lede" banner stay functional without a backend.
+const STATIC_FALLBACK = import.meta.env.VITE_STATIC_FALLBACK !== "false";
+
 async function request(path, opts = {}) {
   const r = await fetch(`${API_BASE}${path}`, {
     credentials: "include",
@@ -20,6 +25,21 @@ async function request(path, opts = {}) {
     throw err;
   }
   return data;
+}
+
+/**
+ * Try the API, fall back to a static JSON file under /public if it fails.
+ * Used for the demo deploy where there's no backend.
+ */
+async function requestWithStaticFallback(apiPath, staticPath) {
+  try {
+    return await request(apiPath);
+  } catch (err) {
+    if (!STATIC_FALLBACK) throw err;
+    const r = await fetch(staticPath);
+    if (!r.ok) throw err;
+    return r.json();
+  }
 }
 
 /**
@@ -82,7 +102,7 @@ export function streamBrief(body, { onDelta, onComplete, onError } = {}) {
 export const api = {
   brief: (body) => request("/api/brief", { method: "POST", body: JSON.stringify(body) }),
   streamBrief,
-  sample: () => request("/api/sample"),
+  sample: () => requestWithStaticFallback("/api/sample", "/sample-brief.json"),
   authRequest: (body) =>
     request("/api/auth/request", { method: "POST", body: JSON.stringify(body) }),
   authVerify: (token) => request(`/api/auth/verify?token=${encodeURIComponent(token)}`),

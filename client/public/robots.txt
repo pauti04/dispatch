@@ -1,14 +1,3 @@
+# Unlisted demo deploy. Anyone with the link can view; search engines should not index.
 User-agent: *
-Allow: /
-
-# Don't index private/auth pages
-Disallow: /verify
-Disallow: /account
-Disallow: /saved
-Disallow: /archive
-Disallow: /search
-Disallow: /unsubscribe
-Disallow: /api/
-
-# Sitemap (also referenced in <head> meta)
-Sitemap: https://dispatch.local/sitemap.xml
+Disallow: /
