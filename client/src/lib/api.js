@@ -5,6 +5,23 @@ const API_BASE = import.meta.env.VITE_API_URL || "";
 // landing's "today's lede" banner stay functional without a backend.
 const STATIC_FALLBACK = import.meta.env.VITE_STATIC_FALLBACK !== "false";
 
+// Static-only mode: no API_BASE set + we're served by a non-localhost host =
+// this is the unlisted demo deploy with no backend. In that mode we short-circuit
+// the API calls that aren't useful (auth, /api/me, etc) so we don't spam the
+// browser console with 404s. Calls that have a static fallback still work.
+const IS_STATIC_ONLY =
+  STATIC_FALLBACK &&
+  !API_BASE &&
+  typeof window !== "undefined" &&
+  !["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+function staticOnlyReject(method) {
+  const err = new Error(`${method} unavailable in static demo mode`);
+  err.status = 501;
+  err.staticOnly = true;
+  return Promise.reject(err);
+}
+
 async function request(path, opts = {}) {
   const r = await fetch(`${API_BASE}${path}`, {
     credentials: "include",
@@ -14,6 +31,15 @@ async function request(path, opts = {}) {
     },
     ...opts,
   });
+  // Defensive: if a host rewrites unknown API routes to the SPA HTML, we'd get
+  // HTTP 200 with content-type text/html. Detect that and treat as failure so
+  // the static fallback in requestWithStaticFallback() can kick in.
+  const ctype = r.headers.get("content-type") || "";
+  if (!ctype.includes("application/json")) {
+    const err = new Error(`expected JSON, got ${ctype || "no content-type"}`);
+    err.status = r.status;
+    throw err;
+  }
   let data = null;
   try {
     data = await r.json();
@@ -30,8 +56,14 @@ async function request(path, opts = {}) {
 /**
  * Try the API, fall back to a static JSON file under /public if it fails.
  * Used for the demo deploy where there's no backend.
+ * In IS_STATIC_ONLY mode, skip the API call entirely and go straight to static.
  */
 async function requestWithStaticFallback(apiPath, staticPath) {
+  if (IS_STATIC_ONLY) {
+    const r = await fetch(staticPath);
+    if (!r.ok) throw new Error(`static fallback ${staticPath} ${r.status}`);
+    return r.json();
+  }
   try {
     return await request(apiPath);
   } catch (err) {
@@ -104,10 +136,16 @@ export const api = {
   streamBrief,
   sample: () => requestWithStaticFallback("/api/sample", "/sample-brief.json"),
   authRequest: (body) =>
-    request("/api/auth/request", { method: "POST", body: JSON.stringify(body) }),
-  authVerify: (token) => request(`/api/auth/verify?token=${encodeURIComponent(token)}`),
-  authLogout: () => request("/api/auth/logout", { method: "POST" }),
-  me: () => request("/api/me"),
+    IS_STATIC_ONLY
+      ? staticOnlyReject("authRequest")
+      : request("/api/auth/request", { method: "POST", body: JSON.stringify(body) }),
+  authVerify: (token) =>
+    IS_STATIC_ONLY
+      ? staticOnlyReject("authVerify")
+      : request(`/api/auth/verify?token=${encodeURIComponent(token)}`),
+  authLogout: () =>
+    IS_STATIC_ONLY ? staticOnlyReject("authLogout") : request("/api/auth/logout", { method: "POST" }),
+  me: () => (IS_STATIC_ONLY ? staticOnlyReject("me") : request("/api/me")),
   updateMe: (body) => request("/api/me", { method: "PATCH", body: JSON.stringify(body) }),
   deleteMe: () => request("/api/me", { method: "DELETE" }),
   testSend: () => request("/api/me/test-send", { method: "POST" }),

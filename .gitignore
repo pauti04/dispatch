@@ -61,3 +61,7 @@ extension/*.zip
 playwright-report/
 test-results/
 .playwright/
+
+# Test artifacts
+.verify-deploy/
+.gif-tmp/
