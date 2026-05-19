@@ -344,7 +344,6 @@ Built in 14 waves.
 <table>
 <tr>
 <td><img src="screenshots/09-landing-mobile.png" alt="Mobile landing" width="280" /></td>
-<td><img src="screenshots/10-demo-mobile.png" alt="Mobile demo" width="280" /></td>
 </tr>
 </table>
 </div>
