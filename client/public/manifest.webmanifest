@@ -1,0 +1,32 @@
+{
+  "name": "Dispatch · Tech",
+  "short_name": "Dispatch",
+  "description": "A daily career-intelligence brief for working developers, AI-curated from HackerNews, GitHub Trending, Lobsters, Reddit, arXiv, and Show HN.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d0c0a",
+  "theme_color": "#0d0c0a",
+  "orientation": "portrait-primary",
+  "categories": ["news", "productivity", "education"],
+  "lang": "en",
+  "shortcuts": [
+    { "name": "Today's edition", "url": "/today", "description": "The public sample of today's brief" },
+    { "name": "Saved stories", "url": "/saved", "description": "Your clippings" },
+    { "name": "Search", "url": "/search", "description": "Search past editions" }
+  ],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

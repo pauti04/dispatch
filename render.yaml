@@ -1,0 +1,80 @@
+# Render Blueprint — Dispatch
+#
+# Drop this into the Render dashboard via "New +" → "Blueprint" → connect repo,
+# and it provisions the web service + both cron jobs in one shot.
+#
+# You'll still need to populate the env vars marked `sync: false` in the dashboard
+# (the secret ones) — DATABASE_URL, RESEND_API_KEY, OPENAI_API_KEY, JWT_SECRET,
+# CRON_SECRET, ADMIN_EMAILS.
+
+services:
+  - type: web
+    name: dispatch-server
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install && npm run migrate
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5180
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_EMBED_MODEL
+        value: text-embedding-3-small
+      - key: OPENAI_JUDGE_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_TTS_MODEL
+        value: gpt-4o-mini-tts
+      - key: OPENAI_TTS_VOICE
+        value: alloy
+      - key: BRIEF_PREFILTER_TOPN
+        value: 30
+      - key: FROM_EMAIL
+        value: Dispatch <onboarding@resend.dev>
+      # Secrets — set these manually in the Render dashboard
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: APP_URL
+        sync: false # set to your Vercel URL after first deploy
+
+  - type: cron
+    name: dispatch-cron-hourly
+    runtime: node
+    rootDir: server
+    plan: free
+    schedule: "0 * * * *"
+    buildCommand: npm install
+    startCommand: 'curl -fsS -X POST -H "x-cron-secret: $CRON_SECRET" "$RENDER_DISPATCH_URL/api/cron/dispatch"'
+    envVars:
+      - key: CRON_SECRET
+        sync: false
+      - key: RENDER_DISPATCH_URL
+        sync: false # e.g. https://dispatch-server.onrender.com
+
+  - type: cron
+    name: dispatch-cron-weekly
+    runtime: node
+    rootDir: server
+    plan: free
+    schedule: "0 9 * * 0"
+    buildCommand: npm install
+    startCommand: 'curl -fsS -X POST -H "x-cron-secret: $CRON_SECRET" "$RENDER_DISPATCH_URL/api/cron/weekly-review"'
+    envVars:
+      - key: CRON_SECRET
+        sync: false
+      - key: RENDER_DISPATCH_URL
+        sync: false

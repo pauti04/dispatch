@@ -1,0 +1,27 @@
+-- Wave N Day 4 — cascade audit (no schema changes).
+--
+-- During the Wave N audit we discovered that all user-bound tables already have
+-- the correct ON DELETE behavior, contradicting the earlier audit's claim that
+-- six tables were missing CASCADE. Verified state below for the record:
+--
+--   prefs                  on delete cascade  ✓  (001_init.sql)
+--   login_tokens           on delete cascade  ✓  (001_init.sql)
+--   editions               on delete cascade  ✓  (001_init.sql)
+--   bookmarks              on delete cascade  ✓  (002_bookmarks.sql)
+--   invites                on delete cascade  ✓  (003_invites.sql)
+--   invite_redemptions     on delete cascade  ✓  (003_invites.sql, both FKs)
+--   letters                on delete cascade  ✓  (005_letters.sql)
+--   clicks                 on delete cascade  ✓  (006_clicks.sql)
+--   team_share_tokens      on delete cascade  ✓  (008_team_share_tokens.sql)
+--   brief_scores           cascades via editions slug (010_brief_scores.sql)
+--   slack_integrations     on delete cascade  ✓  (015_slack_integrations.sql)
+--   push_tokens            on delete cascade  ✓  (016_push_tokens.sql)
+--
+--   usage_log              on delete set null ✓  (intentional — preserve billing audit)
+--   interest_list          no user FK         → cleaned by deleteUser() in db.js
+--   handles                column on users    → goes with the user row
+--
+-- This file is intentionally empty of DDL. It exists so the migration log records
+-- that the audit happened.
+
+select 1;

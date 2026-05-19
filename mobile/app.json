@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Dispatch",
+    "slug": "dispatch-tech",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0d0c0a"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.dispatch.tech" },
+    "android": { "package": "com.dispatch.tech" },
+    "web": { "favicon": "./assets/icon.png" },
+    "extra": {
+      "apiUrl": "http://localhost:5180"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Secrets — belt-and-suspenders. NEVER commit secrets.
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+secrets.json
+
+# Editor + OS noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Expo / React Native
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+*.orig.*
+web-build/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Vite + Vercel
+.vite/
+.vercel/
+
+# Browser extension build artifacts
+extension/build/
+extension/*.zip
+
+# Playwright cache
+playwright-report/
+test-results/
+.playwright/

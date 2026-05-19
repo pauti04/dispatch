@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Don't index private/auth pages
+Disallow: /verify
+Disallow: /account
+Disallow: /saved
+Disallow: /archive
+Disallow: /search
+Disallow: /unsubscribe
+Disallow: /api/
+
+# Sitemap (also referenced in <head> meta)
+Sitemap: https://dispatch.local/sitemap.xml

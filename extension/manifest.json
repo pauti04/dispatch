@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Dispatch · Tech — new tab",
+  "short_name": "Dispatch",
+  "version": "0.1.0",
+  "description": "Every new tab opens today's Dispatch · Tech — an AI-curated morning brief for working developers.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "icons/icon.svg",
+    "48": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "permissions": [],
+  "host_permissions": [
+    "http://localhost:5180/*",
+    "https://*.onrender.com/*"
+  ]
+}
