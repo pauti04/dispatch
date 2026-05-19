@@ -181,7 +181,7 @@ Built in 14 waves. Short version (full details in `~/.claude/plans/splendid-wand
 | J | Quality + cost | Embeddings pre-filter, LLM-as-judge, A/B variants, cost dashboard, moderation |
 | K | New growth surfaces | Public bookmark profiles, full-text search, Discover feed, Slack OAuth, push |
 | L | Polish | Real Privacy/Terms, mobile nav drawer, reading progress, keyboard shortcuts, microcopy |
-| M | 10/10 startup polish | Annotated /demo, per-role prewarm, manifesto, press kit, founder narrative, nav surgery |
+| M | startup polish | Annotated /demo, per-role prewarm, manifesto, press kit, founder narrative, nav surgery |
 | N | Production hardening | Sentry + PostHog + UTM, cost alerts, OpenAI timeouts, welcome email, The Editor's Take, account-deletion E2E test |
 | N+ | Polish + features | Lazy-load PostHog (40% bundle drop), sitemap+robots, admin dashboard, founder note, per-beat RSS, Bluesky+Mastodon share |
 
