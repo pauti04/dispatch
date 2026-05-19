@@ -266,7 +266,7 @@ npm run dev            # http://localhost:5173
 
 ## Project history
 
-Built in 14 waves. Full plan in `~/.claude/plans/splendid-wandering-finch.md`.
+Built in 14 waves.
 
 <details>
 <summary><b>Click to expand the wave-by-wave history</b></summary>
