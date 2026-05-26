@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 import { useAuth } from "../hooks/useAuth.js";
 
 const SOURCE_LABELS = {
@@ -14,6 +15,9 @@ const SOURCE_LABELS = {
 };
 
 export default function Saved() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Saved stories" subscript="Saved · demo mode" />;
+  }
   const [bookmarks, setBookmarks] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();

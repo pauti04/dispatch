@@ -3,7 +3,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
 import BriefView from "../components/BriefView.jsx";
 import Shimmer from "../components/Shimmer.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 import { useBookmarks } from "../hooks/useBookmarks.js";
 
 function LetterForm({ slug }) {
@@ -65,6 +66,9 @@ function LetterForm({ slug }) {
 }
 
 export default function Edition() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="This edition view" subscript="Edition · demo mode" />;
+  }
   const { slug } = useParams();
   const [params] = useSearchParams();
   const viewToken = params.get("t");

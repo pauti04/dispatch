@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 export default function Archive() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Your archive" subscript="Archive · demo mode" />;
+  }
   const [editions, setEditions] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();

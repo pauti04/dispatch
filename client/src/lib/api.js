@@ -6,20 +6,35 @@ const API_BASE = import.meta.env.VITE_API_URL || "";
 const STATIC_FALLBACK = import.meta.env.VITE_STATIC_FALLBACK !== "false";
 
 // Static-only mode: no API_BASE set + we're served by a non-localhost host =
-// this is the unlisted demo deploy with no backend. In that mode we short-circuit
-// the API calls that aren't useful (auth, /api/me, etc) so we don't spam the
-// browser console with 404s. Calls that have a static fallback still work.
-const IS_STATIC_ONLY =
+// this is the unlisted demo deploy with no backend. In that mode every authed
+// API call is short-circuited so the browser console stays clean and we can
+// show a friendly "demo mode" message instead of raw JSON-parse errors.
+//
+// Calls that have a static fallback (sample, discover) still work; everything
+// else rejects with err.staticOnly = true so page components can render a
+// proper demo-mode notice instead of an ugly error.
+export const IS_STATIC_ONLY =
   STATIC_FALLBACK &&
   !API_BASE &&
   typeof window !== "undefined" &&
   !["localhost", "127.0.0.1"].includes(window.location.hostname);
 
-function staticOnlyReject(method) {
-  const err = new Error(`${method} unavailable in static demo mode`);
+export function staticOnlyError(method = "this action") {
+  const err = new Error(
+    `${method} requires a Dispatch subscription. You're viewing the public demo.`
+  );
   err.status = 501;
   err.staticOnly = true;
-  return Promise.reject(err);
+  return err;
+}
+
+function staticOnlyReject(method) {
+  return Promise.reject(staticOnlyError(method));
+}
+
+/** Wrap an API call so it rejects with staticOnly error when in demo mode. */
+function authed(method, fn) {
+  return (...args) => (IS_STATIC_ONLY ? staticOnlyReject(method) : fn(...args));
 }
 
 async function request(path, opts = {}) {
@@ -76,12 +91,14 @@ async function requestWithStaticFallback(apiPath, staticPath) {
 
 /**
  * Stream a brief from /api/brief/stream. Calls handlers as SSE events arrive.
- *   onDelta(chunk: string)
- *   onComplete(brief)
- *   onError(err)
- * Returns a function you can call to abort the stream.
+ * In static-only mode, fires onError immediately so the page can render a
+ * friendly demo-mode notice instead of hanging on the "composing" pane.
  */
 export function streamBrief(body, { onDelta, onComplete, onError } = {}) {
+  if (IS_STATIC_ONLY) {
+    setTimeout(() => onError?.(staticOnlyError("streaming brief generation")), 0);
+    return () => {};
+  }
   const controller = new AbortController();
   (async () => {
     try {
@@ -132,64 +149,88 @@ export function streamBrief(body, { onDelta, onComplete, onError } = {}) {
 }
 
 export const api = {
-  brief: (body) => request("/api/brief", { method: "POST", body: JSON.stringify(body) }),
-  streamBrief,
+  // Public — work even in demo mode via static fallback
   sample: () => requestWithStaticFallback("/api/sample", "/sample-brief.json"),
-  authRequest: (body) =>
-    IS_STATIC_ONLY
-      ? staticOnlyReject("authRequest")
-      : request("/api/auth/request", { method: "POST", body: JSON.stringify(body) }),
-  authVerify: (token) =>
-    IS_STATIC_ONLY
-      ? staticOnlyReject("authVerify")
-      : request(`/api/auth/verify?token=${encodeURIComponent(token)}`),
-  authLogout: () =>
-    IS_STATIC_ONLY ? staticOnlyReject("authLogout") : request("/api/auth/logout", { method: "POST" }),
-  me: () => (IS_STATIC_ONLY ? staticOnlyReject("me") : request("/api/me")),
-  updateMe: (body) => request("/api/me", { method: "PATCH", body: JSON.stringify(body) }),
-  deleteMe: () => request("/api/me", { method: "DELETE" }),
-  testSend: () => request("/api/me/test-send", { method: "POST" }),
-  edition: (slug, viewToken) =>
-    request(`/api/editions/${slug}${viewToken ? `?t=${encodeURIComponent(viewToken)}` : ""}`),
-  listEditions: (before) =>
-    request(`/api/editions${before ? `?before=${encodeURIComponent(before)}` : ""}`),
-  teamShare: (slug) => request(`/api/editions/${encodeURIComponent(slug)}/team-share`, { method: "POST" }),
-  forwardEdition: (slug, to_email) =>
+  discoverThisWeek: () =>
+    requestWithStaticFallback("/api/discover/this-week", "/discover.json"),
+  streamBrief,
+
+  // Authed / backend-only — short-circuit cleanly when demo mode
+  brief: authed("brief", (body) =>
+    request("/api/brief", { method: "POST", body: JSON.stringify(body) })
+  ),
+  authRequest: authed("subscribe", (body) =>
+    request("/api/auth/request", { method: "POST", body: JSON.stringify(body) })
+  ),
+  authVerify: authed("verify", (token) =>
+    request(`/api/auth/verify?token=${encodeURIComponent(token)}`)
+  ),
+  authLogout: authed("sign out", () => request("/api/auth/logout", { method: "POST" })),
+  me: authed("account access", () => request("/api/me")),
+  updateMe: authed("update account", (body) =>
+    request("/api/me", { method: "PATCH", body: JSON.stringify(body) })
+  ),
+  deleteMe: authed("delete account", () => request("/api/me", { method: "DELETE" })),
+  testSend: authed("test send", () => request("/api/me/test-send", { method: "POST" })),
+
+  edition: authed("read edition", (slug, viewToken) =>
+    request(`/api/editions/${slug}${viewToken ? `?t=${encodeURIComponent(viewToken)}` : ""}`)
+  ),
+  listEditions: authed("list editions", (before) =>
+    request(`/api/editions${before ? `?before=${encodeURIComponent(before)}` : ""}`)
+  ),
+  teamShare: authed("team share", (slug) =>
+    request(`/api/editions/${encodeURIComponent(slug)}/team-share`, { method: "POST" })
+  ),
+  forwardEdition: authed("forward", (slug, to_email) =>
     request(`/api/editions/${encodeURIComponent(slug)}/forward`, {
       method: "POST",
       body: JSON.stringify({ to_email }),
-    }),
-  bookmarks: () => request("/api/bookmarks"),
-  addBookmark: (body) =>
-    request("/api/bookmarks", { method: "POST", body: JSON.stringify(body) }),
-  removeBookmark: (story_url) =>
-    request(`/api/bookmarks?story_url=${encodeURIComponent(story_url)}`, { method: "DELETE" }),
-  setBookmarkVisibility: (story_url, is_public) =>
+    })
+  ),
+
+  bookmarks: authed("bookmarks", () => request("/api/bookmarks")),
+  addBookmark: authed("add bookmark", (body) =>
+    request("/api/bookmarks", { method: "POST", body: JSON.stringify(body) })
+  ),
+  removeBookmark: authed("remove bookmark", (story_url) =>
+    request(`/api/bookmarks?story_url=${encodeURIComponent(story_url)}`, { method: "DELETE" })
+  ),
+  setBookmarkVisibility: authed("set bookmark visibility", (story_url, is_public) =>
     request(`/api/bookmarks/visibility`, {
       method: "PATCH",
       body: JSON.stringify({ story_url, is_public }),
-    }),
-  discoverThisWeek: () =>
-    requestWithStaticFallback("/api/discover/this-week", "/discover.json"),
-  search: (q) => request(`/api/me/search?q=${encodeURIComponent(q)}`),
-  unsubscribe: (token) =>
-    request(`/api/unsubscribe?t=${encodeURIComponent(token)}`),
-  myInvite: () => request("/api/invites/me"),
-  inviteLeaderboard: () => request("/api/invites/leaderboard"),
-  inviteStats: () => request("/api/invites/stats"),
-  skillsTrending: () => request("/api/me/skills-trending"),
-  streak: () => request("/api/me/streak"),
-  postLetter: (slug, body) =>
+    })
+  ),
+
+  search: authed("search", (q) => request(`/api/me/search?q=${encodeURIComponent(q)}`)),
+  unsubscribe: authed("unsubscribe", (token) =>
+    request(`/api/unsubscribe?t=${encodeURIComponent(token)}`)
+  ),
+
+  myInvite: authed("invites", () => request("/api/invites/me")),
+  inviteLeaderboard: authed("invite leaderboard", () => request("/api/invites/leaderboard")),
+  inviteStats: authed("invite stats", () => request("/api/invites/stats")),
+
+  skillsTrending: authed("skills trending", () => request("/api/me/skills-trending")),
+  streak: authed("streak", () => request("/api/me/streak")),
+
+  postLetter: authed("post letter", (slug, body) =>
     request(`/api/letters/${encodeURIComponent(slug)}`, {
       method: "POST",
       body: JSON.stringify({ body }),
-    }),
-  listLetters: (slug) => request(`/api/letters/${encodeURIComponent(slug)}`),
+    })
+  ),
+  listLetters: authed("list letters", (slug) =>
+    request(`/api/letters/${encodeURIComponent(slug)}`)
+  ),
+
   /**
-   * Fire-and-forget click beacon. Uses fetch with keepalive so the request survives navigation.
-   * Returns immediately; failures are silent.
+   * Fire-and-forget click beacon. Silent no-op in static mode (no point tracking
+   * clicks when there's no backend).
    */
   trackClick: ({ edition_slug, story_url, story_source, story_title }) => {
+    if (IS_STATIC_ONLY) return;
     try {
       const body = JSON.stringify({ edition_slug, story_url, story_source, story_title });
       fetch(`${API_BASE}/api/track/click`, {

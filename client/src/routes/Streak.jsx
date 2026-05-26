@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 export default function Streak() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Your reading streak" subscript="Streak · demo mode" />;
+  }
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [err, setErr] = useState(null);

@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
 import { ROLES, SKILL_LEVELS, DOMAINS, roleLabel, skillLabel } from "../topics.js";
-import { api } from "../lib/api.js";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 const TZ_DEFAULTS = ["UTC", "America/Los_Angeles", "America/New_York", "Europe/London", "Asia/Kolkata", "Asia/Tokyo"];
 const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 export default function Account() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Your account" subscript="Account · demo mode" />;
+  }
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const isWelcome = params.get("welcome") === "1";

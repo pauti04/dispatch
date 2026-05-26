@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 const SOURCE_LABELS = {
   hackernews: "HackerNews",
@@ -14,6 +15,9 @@ const SOURCE_LABELS = {
 };
 
 export default function Search() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Search across your editions" subscript="Search · demo mode" />;
+  }
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const [q, setQ] = useState(params.get("q") || "");
