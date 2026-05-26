@@ -1,0 +1,77 @@
+{
+  "stories": [
+    {
+      "source": "hackernews",
+      "story_url": "https://news.ycombinator.com/item?id=39472691",
+      "title": "Show HN: 19 lines of bash to back up postgres to S3 every hour",
+      "saves": 47,
+      "story_source_url": "https://news.ycombinator.com/item?id=39472691"
+    },
+    {
+      "source": "github_trending",
+      "story_url": "https://github.com/karpathy/llm.c",
+      "title": "karpathy/llm.c: LLM training in simple, pure C/CUDA",
+      "saves": 41,
+      "story_source_url": "https://github.com/karpathy/llm.c"
+    },
+    {
+      "source": "arxiv",
+      "story_url": "https://arxiv.org/abs/2403.04652",
+      "title": "Yi: Open Foundation Models by 01.AI",
+      "saves": 38,
+      "story_source_url": "https://arxiv.org/abs/2403.04652"
+    },
+    {
+      "source": "hackernews",
+      "story_url": "https://news.ycombinator.com/item?id=39565128",
+      "title": "Linux 6.8 kernel release notes",
+      "saves": 35,
+      "story_source_url": "https://news.ycombinator.com/item?id=39565128"
+    },
+    {
+      "source": "lobsters",
+      "story_url": "https://lobste.rs/s/abc123/postgres_full_text_search",
+      "title": "Postgres full-text search is good enough",
+      "saves": 33,
+      "story_source_url": "https://lobste.rs/s/abc123"
+    },
+    {
+      "source": "reddit",
+      "story_url": "https://www.reddit.com/r/MachineLearning/comments/1bn5g4q",
+      "title": "What ML engineers actually do day-to-day — a survey of 300+ practitioners",
+      "saves": 29,
+      "story_source_url": "https://www.reddit.com/r/MachineLearning",
+      "subreddit": "MachineLearning"
+    },
+    {
+      "source": "show_hn",
+      "story_url": "https://news.ycombinator.com/item?id=39612388",
+      "title": "Show HN: A CLI that turns your shell history into a knowledge graph",
+      "saves": 27,
+      "story_source_url": "https://news.ycombinator.com/item?id=39612388"
+    },
+    {
+      "source": "github_trending",
+      "story_url": "https://github.com/anthropics/anthropic-cookbook",
+      "title": "anthropic-cookbook: examples and guides for using the Anthropic API",
+      "saves": 24,
+      "story_source_url": "https://github.com/anthropics/anthropic-cookbook"
+    },
+    {
+      "source": "hackernews",
+      "story_url": "https://news.ycombinator.com/item?id=39701236",
+      "title": "You probably don't need a queue — just use Postgres",
+      "saves": 22,
+      "story_source_url": "https://news.ycombinator.com/item?id=39701236"
+    },
+    {
+      "source": "arxiv",
+      "story_url": "https://arxiv.org/abs/2402.05675",
+      "title": "Tandem Transformers for Inference-time Computation",
+      "saves": 19,
+      "story_source_url": "https://arxiv.org/abs/2402.05675"
+    }
+  ],
+  "generated_at": "2026-05-19T00:00:00.000Z",
+  "note": "Hand-curated demo data. In production this aggregates from real subscriber bookmarks via /api/discover/this-week."
+}

@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Server tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci --no-audit --no-fund
+
+      - name: Run unit tests
+        working-directory: server
+        run: npm test
+
+      - name: Syntax-check critical files
+        working-directory: server
+        run: |
+          node --check server.js
+          node --check cron.js
+          node --check brief.js
+          node --check email.js
+          node --check db.js
+          node --check observability.js
+          node --check openai-utils.js
+
+  build:
+    name: Client build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci --no-audit --no-fund
+
+      - name: Build production bundle
+        working-directory: client
+        run: npm run build
+
+      - name: Verify build output
+        working-directory: client
+        run: |
+          test -f dist/index.html || (echo "missing dist/index.html" && exit 1)
+          test -d dist/assets || (echo "missing dist/assets" && exit 1)
+          test -f dist/sample-brief.json || (echo "missing static brief" && exit 1)
+          test -f dist/robots.txt || (echo "missing robots.txt" && exit 1)
+          ls -la dist/

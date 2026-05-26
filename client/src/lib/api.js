@@ -169,7 +169,8 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify({ story_url, is_public }),
     }),
-  discoverThisWeek: () => request("/api/discover/this-week"),
+  discoverThisWeek: () =>
+    requestWithStaticFallback("/api/discover/this-week", "/discover.json"),
   search: (q) => request(`/api/me/search?q=${encodeURIComponent(q)}`),
   unsubscribe: (token) =>
     request(`/api/unsubscribe?t=${encodeURIComponent(token)}`),

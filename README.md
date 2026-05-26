@@ -17,6 +17,8 @@ Editorial voice. Career-grounded curation. Five minutes, five things, four hundr
 [![Sentry](https://img.shields.io/badge/Sentry-observability-362D59?logo=sentry&logoColor=white&style=flat-square)](https://sentry.io)
 [![PostHog](https://img.shields.io/badge/PostHog-analytics-1D4AFF?logo=posthog&logoColor=white&style=flat-square)](https://posthog.com)
 [![Expo](https://img.shields.io/badge/Expo-mobile-000020?logo=expo&logoColor=white&style=flat-square)](https://expo.dev)
+[![Tests](https://img.shields.io/badge/tests-41%20passing-3FB950?logo=vitest&logoColor=white&style=flat-square)](server/tests)
+[![CI](https://github.com/pauti04/dispatch/actions/workflows/ci.yml/badge.svg)](https://github.com/pauti04/dispatch/actions/workflows/ci.yml)
 
 </div>
 
@@ -332,8 +334,18 @@ Built in 14 waves.
 <p align="center"><em>/changelog — public weekly shipped-things log</em></p>
 </td>
 <td>
+<a href="screenshots/11-discover.png"><img src="screenshots/11-discover.png" alt="Discover" /></a>
+<p align="center"><em>/discover — most-bookmarked stories this week</em></p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="screenshots/00-showcase.png"><img src="screenshots/00-showcase.png" alt="Showcase" /></a>
 <p align="center"><em>/showcase — the portfolio page itself</em></p>
+</td>
+<td>
+<a href="screenshots/04-demo-callout.png"><img src="screenshots/04-demo-callout.png" alt="Demo callout" /></a>
+<p align="center"><em>/demo — editorial callouts mid-scroll</em></p>
 </td>
 </tr>
 </table>

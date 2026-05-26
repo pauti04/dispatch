@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import BriefSkeleton from "../components/BriefSkeleton.jsx";
+import ErrorState from "../components/ErrorState.jsx";
 import { api } from "../lib/api.js";
 
 const SOURCE_LABELS = {
@@ -12,79 +14,95 @@ const SOURCE_LABELS = {
   show_hn: "Show HN",
 };
 
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
 export default function Discover() {
   const [stories, setStories] = useState(null);
+  const [note, setNote] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     api
       .discoverThisWeek()
-      .then((d) => setStories(d.stories || []))
-      .catch((e) => setError(String(e.message || e)));
+      .then((d) => {
+        setStories(d.stories || []);
+        if (d.note) setNote(d.note);
+      })
+      .catch((e) => setError(e));
   }, []);
+
+  if (error) return <ErrorState error={error} title="Couldn't load Discover" />;
 
   return (
     <>
       <Masthead subscript="Discover · what readers are saving" />
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main id="main" className="max-w-3xl mx-auto px-6 py-12">
         <div className="text-center mb-10">
           <p className="eyebrow mb-3">Discover · this week</p>
           <h2 className="font-display text-4xl md:text-5xl text-paper leading-tight mb-3">
             What Dispatch readers are saving.
           </h2>
           <p className="font-serif-body text-paper-dim leading-relaxed max-w-xl mx-auto">
-            The stories most-bookmarked by Dispatch subscribers in the past 7 days. Anonymous —
-            shows the story, not who saved it.
+            The stories most-bookmarked by Dispatch subscribers this week. Anonymous —
+            shows the story, not who saved it. A second editor, made of clicks.
           </p>
         </div>
 
-        <hr className="rule-gold mb-8" />
+        <hr className="rule-gold mb-10" />
 
-        {error && (
-          <p className="text-center font-mono text-sm text-muted">{error}</p>
-        )}
-
-        {stories == null && !error && (
-          <div className="space-y-3">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="card p-5 space-y-2">
-                <div className="shimmer h-3 w-24" />
-                <div className="shimmer h-5 w-3/4" />
-              </div>
-            ))}
-          </div>
-        )}
+        {stories == null && <BriefSkeleton tag="Aggregating this week's saves" lines={3} />}
 
         {stories && stories.length === 0 && (
-          <div className="card p-8 text-center">
-            <p className="font-serif-body text-paper-dim italic">
+          <div className="text-center py-12">
+            <p className="font-serif-body italic text-paper-dim text-lg max-w-md mx-auto">
               The community is quiet this week. Be the first — star a story on any edition.
             </p>
           </div>
         )}
 
         {stories && stories.length > 0 && (
-          <ul className="space-y-3">
-            {stories.map((s, i) => (
-              <li key={i}>
-                <a href={s.story_url} target="_blank" rel="noreferrer" className="discover-card">
-                  <div className="flex items-center justify-between gap-3 mb-2">
-                    <span className="src-tag">{SOURCE_LABELS[s.source] || "Source"}</span>
-                    <span className="discover-saves">{s.saves} saves</span>
+          <ol className="discover-list">
+            {stories.slice(0, 10).map((s, i) => (
+              <li key={i} className="discover-item">
+                <span className="discover-rank">{ROMAN[i] || i + 1}</span>
+                <a
+                  href={s.story_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="discover-link"
+                >
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
+                    <span className="src-tag">
+                      {s.source === "reddit" && s.subreddit
+                        ? `r/${s.subreddit}`
+                        : SOURCE_LABELS[s.source] || "Source"}
+                    </span>
+                    <span className="discover-saves">
+                      <span className="saves-number">{s.saves}</span> saves
+                    </span>
                   </div>
-                  <h3 className="font-display text-xl md:text-2xl text-paper hover:text-gold leading-snug">
-                    {s.title}
-                  </h3>
+                  <h3 className="discover-title">{s.title}</h3>
                 </a>
               </li>
             ))}
-          </ul>
+          </ol>
         )}
 
-        <p className="text-center mt-12">
-          <Link to="/saved" className="kicker">
+        {note && (
+          <p className="text-center kicker mt-12 text-muted">
+            {note}
+          </p>
+        )}
+
+        <hr className="rule-double mt-16 mb-6" />
+        <p className="text-center kicker">
+          <Link to="/saved" className="text-gold hover:text-paper">
             Save your own stories →
+          </Link>
+          <span className="mx-3 text-muted">·</span>
+          <Link to="/demo" className="text-gold hover:text-paper">
+            See today's brief
           </Link>
         </p>
       </main>

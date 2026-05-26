@@ -163,6 +163,16 @@ async function main() {
     onboarding > 0 ? pass("/try onboarding step renders", `${onboarding} role buttons`) : fail("/try onboarding missing");
   });
 
+  // 7b. /discover — the new public surface
+  await checkPage(browser, "/discover", async (page) => {
+    const masthead = await page.locator(".masthead-title").isVisible();
+    masthead ? pass("/discover masthead") : fail("/discover masthead missing");
+    const items = await page.locator(".discover-item").count();
+    items >= 5 ? pass("/discover items rendered", `count=${items}`) : fail("/discover items", `count=${items}`);
+    const firstTitle = await page.locator(".discover-title").first().innerText().catch(() => "");
+    firstTitle.length > 5 ? pass("/discover first title", firstTitle.slice(0, 60)) : fail("/discover empty title");
+  });
+
   // 8. 404 page — React renders NotFound for any unmatched route
   await checkPage(browser, "/this-route-definitely-doesnt-exist", async (page) => {
     // NotFound component contains a big "404" element + "Page not found" eyebrow
