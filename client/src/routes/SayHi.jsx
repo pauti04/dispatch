@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * Wave M.3 — founder office hours / contact page.
@@ -8,6 +9,10 @@ import Masthead from "../components/Masthead.jsx";
 export default function SayHi() {
   return (
     <>
+      <PageMeta
+        title="Say hi"
+        description="One way to start a conversation with the editor. Tell us what you'd change about today's brief, what's broken on the demo, or what you'd want from Dispatch · Tech."
+      />
       <Masthead subscript="Say hi to the editor" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">From the editor's desk</p>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * Wave M.3 — the first-100 founder-led landing.
@@ -9,6 +10,10 @@ import Masthead from "../components/Masthead.jsx";
 export default function Early() {
   return (
     <>
+      <PageMeta
+        title="First 100 readers"
+        description="An invitation to the first 100 working developers. Read Dispatch for two weeks, tell us what's broken, help shape the product. Founder-led onboarding."
+      />
       <Masthead subscript="Early subscribers · first 100 working developers" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">An invitation</p>

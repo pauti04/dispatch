@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import DemoModeNotice from "../components/DemoModeNotice.jsx";
 import { IS_STATIC_ONLY } from "../lib/api.js";
 
@@ -94,6 +95,10 @@ export default function Teaser({ publicationId }) {
 
   return (
     <>
+      <PageMeta
+        title={`${pub.name} · coming soon`}
+        description={pub.tagline}
+      />
       <Masthead subscript="Coming soon · join the list" />
 
       <main className={`max-w-3xl mx-auto px-6 py-16 ${pub.palette_class}`}>

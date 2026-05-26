@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 import BriefSkeleton from "../components/BriefSkeleton.jsx";
 
@@ -32,6 +33,7 @@ export default function Admin() {
   const [tab, setTab] = useState("cost");
   return (
     <>
+      <PageMeta title="Editor's desk · admin" description="Dispatch admin dashboard." />
       <Masthead subscript="Editor's desk · admin" />
       <main id="main" className="max-w-5xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-6">

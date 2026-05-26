@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import Story from "../components/Story.jsx";
 import PullQuote from "../components/PullQuote.jsx";
 import { api } from "../lib/api.js";
@@ -85,6 +86,10 @@ export default function Demo() {
 
   return (
     <>
+      <PageMeta
+        title="Annotated edition"
+        description="A real Dispatch edition with editorial annotations — see the craft of the page. The Editor's Pick, the why-it-matters lines, the pull quote, the by-the-numbers, all called out."
+      />
       <Masthead subscript="Demo · annotated edition" />
 
       {/* Sticky CTA strip — always visible during the read */}

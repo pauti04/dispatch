@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * /showcase — the portfolio-grade page meant for a resume link.
@@ -16,6 +17,10 @@ import Masthead from "../components/Masthead.jsx";
 export default function Showcase() {
   return (
     <>
+      <PageMeta
+        title="Showcase · about this project"
+        description="An AI-curated daily morning brief for working developers — built from scratch as a portfolio piece. Editorial voice, career-grounded curation, single-developer-shipped product."
+      />
       <Masthead subscript="A portfolio project · built from scratch" />
       <main id="main" className="max-w-6xl mx-auto px-6 py-12">
         {/* Pitch */}

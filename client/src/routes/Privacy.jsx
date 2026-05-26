@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 export default function Privacy() {
   return (
     <>
+      <PageMeta
+        title="Privacy policy"
+        description="What data Dispatch collects, what we do with it, and what we never do. Short, in plain English."
+      />
       <Masthead subscript="Privacy policy" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">The fine print</p>

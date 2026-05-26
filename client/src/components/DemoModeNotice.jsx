@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "./Masthead.jsx";
+import PageMeta from "./PageMeta.jsx";
 
 /**
  * Shown when an authed feature is accessed in the static demo deploy.
@@ -7,8 +8,13 @@ import Masthead from "./Masthead.jsx";
  * "X UNAVAILABLE") with a friendly editor-voiced explanation.
  */
 export default function DemoModeNotice({ feature, subscript = "A demo, not a subscription" }) {
+  const metaTitle = feature ? `${feature} · demo mode` : "Demo mode";
+  const metaDesc = feature
+    ? `${feature} requires a real Dispatch subscription. You're viewing the unlisted public demo — try the annotated edition at /demo.`
+    : "You're viewing the unlisted public demo of Dispatch. Try the annotated edition at /demo.";
   return (
     <>
+      <PageMeta title={metaTitle} description={metaDesc} />
       <Masthead subscript={subscript} />
       <main id="main" className="max-w-xl mx-auto px-6 py-20 text-center">
         <p className="eyebrow mb-4">Demo mode</p>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * Wave M.3 — the public changelog.
@@ -54,6 +55,10 @@ const ENTRIES = [
 export default function Changelog() {
   return (
     <>
+      <PageMeta
+        title="Changelog"
+        description="What's changed on Dispatch this week. Hand-edited by the editor — when something lands worth mentioning, it shows up here."
+      />
       <Masthead subscript="What changed this week" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">Changelog</p>

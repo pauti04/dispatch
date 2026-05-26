@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * Wave M.1 — the manifesto. Six short paragraphs, each committing to one thing.
@@ -36,6 +37,10 @@ export default function Manifesto() {
 
   return (
     <>
+      <PageMeta
+        title="Manifesto"
+        description="Six things Dispatch believes about reading, attention, and writing for working developers. Each paragraph commits to one thing. Read in under 90 seconds."
+      />
       <Masthead subscript="Six things Dispatch believes" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">A manifesto</p>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 /**
  * Wave M.1 — press kit. So when someone wants to write about Dispatch
@@ -8,6 +9,10 @@ import Masthead from "../components/Masthead.jsx";
 export default function Press() {
   return (
     <>
+      <PageMeta
+        title="Press kit"
+        description="Everything you need to write about Dispatch — the one-liner, the founder paragraph, screenshots, sample edition, contact. So you don't have to email asking."
+      />
       <Masthead subscript="Press kit · everything in one place" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">Press kit</p>

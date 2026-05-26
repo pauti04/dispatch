@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import Story from "../components/Story.jsx";
 import PullQuote from "../components/PullQuote.jsx";
 import { api } from "../lib/api.js";
@@ -310,6 +311,9 @@ function Footer() {
 export default function Landing() {
   return (
     <>
+      {/* Landing uses the default site-wide title/description — PageMeta is still
+          mounted so the canonical URL is set to / (rather than left missing). */}
+      <PageMeta />
       <LedeBanner />
       <Masthead subscript="The morning paper for working developers" />
 

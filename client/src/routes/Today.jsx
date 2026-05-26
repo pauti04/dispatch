@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import BriefView from "../components/BriefView.jsx";
 import Shimmer from "../components/Shimmer.jsx";
 import { api } from "../lib/api.js";
@@ -31,6 +32,10 @@ export default function Today() {
 
   return (
     <>
+      <PageMeta
+        title="Today's public preview"
+        description="Today's Dispatch · Tech sample brief — what subscribers are reading this morning. Your own edition would be tuned to your role, skill, and beats."
+      />
       <Masthead subscript="Today on Dispatch · public preview" />
 
       <div className="cta-strip no-print">

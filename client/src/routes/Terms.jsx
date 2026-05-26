@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 export default function Terms() {
   return (
     <>
+      <PageMeta
+        title="Terms of service"
+        description="The terms of using Dispatch. Free for everyone, no warranty, plain English."
+      />
       <Masthead subscript="Terms of service" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">The fine print</p>

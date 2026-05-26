@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 export default function About() {
   return (
     <>
+      <PageMeta
+        title="About"
+        description="Why Dispatch was built — the morning newspaper recast for working developers. What we believe, who builds this, and what's explicitly out of scope."
+      />
       <Masthead subscript="About Dispatch" />
       <main className="legal-page">
         <p className="eyebrow text-center mb-3">A short history</p>

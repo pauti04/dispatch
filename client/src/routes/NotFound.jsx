@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 
 export default function NotFound() {
   return (
     <>
+      <PageMeta
+        title="404 · Page not found"
+        description="That page has gone to press elsewhere. Back to Dispatch."
+      />
       <Masthead subscript="The page has gone to press elsewhere" />
       <main className="max-w-2xl mx-auto px-6 py-20 text-center">
         <p className="eyebrow mb-5">404 · Page not found</p>

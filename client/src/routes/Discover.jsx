@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import BriefSkeleton from "../components/BriefSkeleton.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 import { api } from "../lib/api.js";
@@ -35,6 +36,10 @@ export default function Discover() {
 
   return (
     <>
+      <PageMeta
+        title="Discover"
+        description="Top stories saved by Dispatch readers this week. The community discovery layer — anonymized and cached. Updated daily."
+      />
       <Masthead subscript="Discover · what readers are saving" />
 
       <main id="main" className="max-w-3xl mx-auto px-6 py-12">

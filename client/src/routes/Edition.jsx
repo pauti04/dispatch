@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import PageMeta from "../components/PageMeta.jsx";
 import BriefView from "../components/BriefView.jsx";
 import Shimmer from "../components/Shimmer.jsx";
 import DemoModeNotice from "../components/DemoModeNotice.jsx";
@@ -115,6 +116,13 @@ export default function Edition() {
 
   return (
     <>
+      <PageMeta
+        title={edition.data?.headline || `Edition · ${dateLabel}`}
+        description={
+          edition.data?.editor_note ||
+          `Today's Dispatch · Tech edition. ${edition.data?.sections?.length || 0} beats, hand-picked from HN, GitHub, Lobsters, Reddit, arXiv, Show HN.`
+        }
+      />
       <Masthead subscript={`Edition for ${dateLabel}`} />
 
       <div className="cta-strip no-print">
