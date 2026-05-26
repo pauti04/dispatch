@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 export default function Unsubscribe() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Unsubscribing" subscript="Unsubscribe · demo mode" />;
+  }
   const [params] = useSearchParams();
   const token = params.get("t") || params.get("token");
   const [state, setState] = useState({ loading: true, email: null, error: null });

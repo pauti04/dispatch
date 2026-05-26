@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 const INVITE_LS_KEY = "dispatch.invite_token";
 
@@ -14,8 +15,17 @@ export default function Invite() {
       localStorage.setItem(INVITE_LS_KEY, token);
     } catch {}
 
-    fetch(`/api/invites/lookup/${encodeURIComponent(token)}`)
-      .then((r) => (r.ok ? r.json() : null))
+    if (IS_STATIC_ONLY) {
+      // No backend to look up the inviter. Skip the fetch (no 404 in console),
+      // show the generic landing, and send the visitor straight to the demo
+      // edition where they can see what Dispatch actually is.
+      setInviter("a friend");
+      const t = setTimeout(() => navigate("/demo", { replace: true }), 1800);
+      return () => clearTimeout(t);
+    }
+
+    api
+      .lookupInvite(token)
       .then((d) => setInviter(d?.inviter_hint || "a friend"))
       .catch(() => setInviter("a friend"));
 
@@ -42,7 +52,9 @@ export default function Invite() {
             "Let's get you set up."
           )}
         </p>
-        <p className="kicker mt-8">Taking you to your preview…</p>
+        <p className="kicker mt-8">
+          {IS_STATIC_ONLY ? "Taking you to the demo edition…" : "Taking you to your preview…"}
+        </p>
       </main>
     </>
   );

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 import { track, events, getStoredUTMs } from "../lib/analytics.js";
 
 const LS_KEY = "dispatch.prefs.v2";
@@ -17,6 +18,14 @@ function loadPrefs() {
 }
 
 export default function Signup({ mode = "signup" }) {
+  if (IS_STATIC_ONLY) {
+    return (
+      <DemoModeNotice
+        feature={mode === "signup" ? "Subscribing" : "Signing in"}
+        subscript={mode === "signup" ? "Signup · demo mode" : "Login · demo mode"}
+      />
+    );
+  }
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(null); // { dev_link? }

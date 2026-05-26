@@ -4,7 +4,8 @@ import Masthead from "../components/Masthead.jsx";
 import OnboardingFlow from "../components/OnboardingFlow.jsx";
 import OnboardingTour from "../components/OnboardingTour.jsx";
 import BriefView from "../components/BriefView.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 import { track, events } from "../lib/analytics.js";
 import { roleLabel, skillLabel } from "../topics.js";
 
@@ -56,6 +57,14 @@ function LiveComposing({ text }) {
 }
 
 export default function Try() {
+  if (IS_STATIC_ONLY) {
+    return (
+      <DemoModeNotice
+        feature="Composing a fresh brief on the fly"
+        subscript="Try · demo mode"
+      />
+    );
+  }
   const initial = loadPrefs();
   const [prefs, setPrefs] = useState(null);
   const [brief, setBrief] = useState(null);

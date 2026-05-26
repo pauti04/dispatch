@@ -225,6 +225,19 @@ export const api = {
     request(`/api/letters/${encodeURIComponent(slug)}`)
   ),
 
+  /** Public invite-token lookup. Returns { inviter_hint } or null. */
+  lookupInvite: authed("invite lookup", (token) =>
+    request(`/api/invites/lookup/${encodeURIComponent(token)}`)
+  ),
+
+  /** Public — coming-soon publication interest list. */
+  interestCount: authed("interest count", (pubId) =>
+    request(`/api/interest/count/${encodeURIComponent(pubId)}`)
+  ),
+  interestSubscribe: authed("interest signup", (body) =>
+    request("/api/interest/subscribe", { method: "POST", body: JSON.stringify(body) })
+  ),
+
   /**
    * Fire-and-forget click beacon. Silent no-op in static mode (no point tracking
    * clicks when there's no backend).

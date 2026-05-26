@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { IS_STATIC_ONLY } from "../lib/api.js";
 
 // Static publication definitions for the teasers. Each one lives at its own route.
 const PUBLICATIONS = {
@@ -36,6 +38,14 @@ const PUBLICATIONS = {
 
 export default function Teaser({ publicationId }) {
   const pub = PUBLICATIONS[publicationId];
+  if (IS_STATIC_ONLY) {
+    return (
+      <DemoModeNotice
+        feature={pub ? `The ${pub.name} interest list` : "This publication teaser"}
+        subscript={pub ? `${pub.name} · demo mode` : "Teaser · demo mode"}
+      />
+    );
+  }
   const [email, setEmail] = useState("");
   const [count, setCount] = useState(null);
   const [status, setStatus] = useState(null); // 'sending' | 'subscribed' | error

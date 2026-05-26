@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import Masthead from "../components/Masthead.jsx";
-import { api } from "../lib/api.js";
+import DemoModeNotice from "../components/DemoModeNotice.jsx";
+import { api, IS_STATIC_ONLY } from "../lib/api.js";
 
 export default function Verify() {
+  if (IS_STATIC_ONLY) {
+    return <DemoModeNotice feature="Magic-link sign-in" subscript="Verify · demo mode" />;
+  }
   const [params] = useSearchParams();
   const [state, setState] = useState({ loading: true, error: null });
   const navigate = useNavigate();
