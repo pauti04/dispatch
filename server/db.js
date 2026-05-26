@@ -3,11 +3,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-if (!process.env.DATABASE_URL) {
-  console.warn("⚠️  DATABASE_URL missing — db calls will fail");
-}
+// When DATABASE_URL is missing (CI test runs, static-only demos), neon() throws at
+// import time. Replace it with a thin stub that rejects on actual use but lets
+// module imports + pure-function tests proceed.
+export const sql = process.env.DATABASE_URL
+  ? neon(process.env.DATABASE_URL)
+  : (() => {
+      const stub = async () => {
+        throw new Error("DATABASE_URL not configured — db calls unavailable in this environment");
+      };
+      // sql is used as both a function and a tagged template — handle both
+      stub.unsafe = stub;
+      stub.transaction = stub;
+      return stub;
+    })();
 
-export const sql = neon(process.env.DATABASE_URL || "");
+if (!process.env.DATABASE_URL) {
+  console.warn("⚠️  DATABASE_URL missing — db calls will reject when invoked");
+}
 
 /* ─── User queries ─────────────────────────────────────────── */
 
