@@ -6,7 +6,7 @@ dotenv.config();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY || "missing-at-runtime" });
 
 const TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 const cache = new Map(); // userId -> { at, value }

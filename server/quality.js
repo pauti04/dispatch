@@ -7,7 +7,7 @@ import { sql } from "./db.js";
 import { logUsage } from "./usage.js";
 
 dotenv.config();
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "missing-at-runtime" });
 const JUDGE_MODEL = process.env.OPENAI_JUDGE_MODEL || "gpt-4o-mini";
 
 const PROMPT = `You are a strict editor reviewing a draft of the Dispatch · Tech daily brief — a career-intelligence brief for working developers. The brief should be:

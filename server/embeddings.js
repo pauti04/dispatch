@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import { logUsage } from "./usage.js";
 
 dotenv.config();
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "missing-at-runtime" });
 const EMBED_MODEL = process.env.OPENAI_EMBED_MODEL || "text-embedding-3-small";
 
 // In-memory LRU caches so we don't re-embed the same beats / titles within a run or across

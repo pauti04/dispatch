@@ -23,7 +23,7 @@ import { postBriefToUserSlacks } from "./slack.js";
 import { pushBriefReady } from "./push.js";
 
 dotenv.config();
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "missing-at-runtime" });
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
 function makeSlug() {

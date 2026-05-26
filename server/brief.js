@@ -26,7 +26,8 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const HYPE_VALUES = ["hyped", "skeptical", "experimental", "deep_dive"];
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+// Allow import without OPENAI_API_KEY (CI test runs); the client only fails at actual call time.
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY || "missing-at-runtime" });
 
 /* ─── Pool assembly ────────────────────────────────────────── */
 
