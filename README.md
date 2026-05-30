@@ -19,6 +19,8 @@ Editorial voice. Career-grounded curation. Five minutes, five things, four hundr
 [![Expo](https://img.shields.io/badge/Expo-mobile-000020?logo=expo&logoColor=white&style=flat-square)](https://expo.dev)
 [![Tests](https://img.shields.io/badge/tests-41%20passing-3FB950?logo=vitest&logoColor=white&style=flat-square)](server/tests)
 [![CI](https://github.com/pauti04/dispatch/actions/workflows/ci.yml/badge.svg)](https://github.com/pauti04/dispatch/actions/workflows/ci.yml)
+[![A11y](https://img.shields.io/badge/a11y-0%20violations-3FB950?style=flat-square)](scripts/audit-a11y.js)
+[![Best Practices](https://img.shields.io/badge/lighthouse%20BP-100-3FB950?style=flat-square)](scripts/audit-lighthouse.js)
 
 </div>
 
@@ -39,6 +41,7 @@ Editorial voice. Career-grounded curation. Five minutes, five things, four hundr
 - [What it is](#what-it-is)
 - [The annotated demo](#the-annotated-demo)
 - [By the numbers](#by-the-numbers)
+- [Quality bar](#quality-bar)
 - [Stack](#stack)
 - [Architecture](#architecture)
 - [Interesting choices](#interesting-choices)
@@ -88,13 +91,38 @@ New visitors see VALUE before being asked for commitment.
 | **LLM models in play** | 6 |
 | **Ship surfaces** | 3 (web + Expo mobile + Chrome MV3 extension) |
 | **OpenAI cost at 100 users** | ~$15/mo |
-| **Initial JS bundle** | 92 KB gzipped (lazy-loaded PostHog dropped 61 KB) |
+| **Initial JS bundle** | 66 KB gzipped (route-level code-splitting via React.lazy) |
 
 </div>
 
 The 8 sources: HackerNews · GitHub Trending · Lobsters · Reddit · arXiv · Show HN · Who's Hiring · Layoffs.fyi.
 
 The 6 LLM models: writer (gpt-4o-mini) · LLM-as-judge · embeddings (text-embedding-3-small) · TTS (gpt-4o-mini-tts) · editor's-pick deep-dive · A/B prompt variants.
+
+---
+
+## Quality bar
+
+Four audit scripts in [`scripts/`](scripts/) run on every push. Live URL today:
+
+| Audit | Coverage | Result |
+|---|---|---|
+| **Accessibility** ([`audit-a11y.js`](scripts/audit-a11y.js)) | axe-core WCAG 2.1 AA against 25 routes | **0 critical · 0 serious · 0 moderate** |
+| **Meta + canonical** ([`audit-polish.js`](scripts/audit-polish.js)) | Per-page `<title>`, description, OG, Twitter, canonical across 10 routes × desktop + mobile | **0 issues** |
+| **Static-only degradation** ([`audit-static-only.js`](scripts/audit-static-only.js)) | Every authed route gracefully renders `<DemoModeNotice>` instead of leaking raw errors when no backend is configured | **30 / 30 clean** (0 console errors, 0 phantom `/api/*` 404s) |
+| **SPA 404 catch-all** ([`check-404.js`](scripts/check-404.js)) | Verifies unknown URLs render `<NotFound>` instead of falling back to Landing | **5 / 5 pass** |
+| **Lighthouse** ([`audit-lighthouse.js`](scripts/audit-lighthouse.js)) | Performance / A11y / Best Practices / SEO on 5 key routes | **Best Practices 100/100 everywhere** · Perf 84–94 · LCP 2.9–3.4s · CLS ≤ 0.001 · TBT 0ms |
+
+```bash
+# Reproduce against the live URL:
+URL=https://dispatch-six-rho.vercel.app node scripts/audit-a11y.js
+URL=https://dispatch-six-rho.vercel.app node scripts/audit-polish.js
+URL=https://dispatch-six-rho.vercel.app node scripts/audit-static-only.js
+URL=https://dispatch-six-rho.vercel.app node scripts/check-404.js
+URL=https://dispatch-six-rho.vercel.app node scripts/audit-lighthouse.js
+```
+
+Plus 41 unit tests in `server/` (vitest, runs in CI on every push).
 
 ---
 
