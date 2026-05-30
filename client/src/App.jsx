@@ -1,15 +1,20 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./routes/Landing.jsx";
+import Demo from "./routes/Demo.jsx";
 import NotFound from "./routes/NotFound.jsx";
 import Shortcuts from "./components/Shortcuts.jsx";
 import Shimmer from "./components/Shimmer.jsx";
 
-// Landing + NotFound stay in the main bundle — Landing is the front door
-// (hit by ~every visitor), NotFound is the catch-all and tiny.
+// Landing + Demo + NotFound stay in the main bundle:
+//   - Landing  — front door, hit by ~every visitor
+//   - Demo     — primary CTA destination from Landing + Showcase; the
+//                marketing payoff page. Eager-loading avoids an extra
+//                chunk fetch on the page recruiters most want to see.
+//   - NotFound — catch-all, tiny.
 //
-// Everything else is code-split per route. Cuts the initial bundle ~60%
-// and improves LCP on the routes that get the most traffic.
+// Everything else is code-split per route. Cuts the initial bundle ~35%
+// vs no-split while keeping Demo's TTI fast.
 const Try         = lazy(() => import("./routes/Try.jsx"));
 const Signup      = lazy(() => import("./routes/Signup.jsx"));
 const Verify      = lazy(() => import("./routes/Verify.jsx"));
@@ -29,7 +34,6 @@ const Terms       = lazy(() => import("./routes/Terms.jsx"));
 const About       = lazy(() => import("./routes/About.jsx"));
 const Manifesto   = lazy(() => import("./routes/Manifesto.jsx"));
 const Press       = lazy(() => import("./routes/Press.jsx"));
-const Demo        = lazy(() => import("./routes/Demo.jsx"));
 const SayHi       = lazy(() => import("./routes/SayHi.jsx"));
 const Early       = lazy(() => import("./routes/Early.jsx"));
 const Changelog   = lazy(() => import("./routes/Changelog.jsx"));
