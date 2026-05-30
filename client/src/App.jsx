@@ -1,73 +1,83 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./routes/Landing.jsx";
-import Try from "./routes/Try.jsx";
-import Signup from "./routes/Signup.jsx";
-import Verify from "./routes/Verify.jsx";
-import Account from "./routes/Account.jsx";
-import Edition from "./routes/Edition.jsx";
-import Archive from "./routes/Archive.jsx";
-import Saved from "./routes/Saved.jsx";
-import Invite from "./routes/Invite.jsx";
-import Streak from "./routes/Streak.jsx";
-import Today from "./routes/Today.jsx";
-import Referrals from "./routes/Referrals.jsx";
-import Teaser from "./routes/Teaser.jsx";
-import Search from "./routes/Search.jsx";
-import Discover from "./routes/Discover.jsx";
-import Privacy from "./routes/Privacy.jsx";
-import Terms from "./routes/Terms.jsx";
-import About from "./routes/About.jsx";
-import Manifesto from "./routes/Manifesto.jsx";
-import Press from "./routes/Press.jsx";
-import Demo from "./routes/Demo.jsx";
-import SayHi from "./routes/SayHi.jsx";
-import Early from "./routes/Early.jsx";
-import Changelog from "./routes/Changelog.jsx";
 import NotFound from "./routes/NotFound.jsx";
-import Unsubscribe from "./routes/Unsubscribe.jsx";
 import Shortcuts from "./components/Shortcuts.jsx";
-import Admin from "./routes/Admin.jsx";
-import Showcase from "./routes/Showcase.jsx";
+import Shimmer from "./components/Shimmer.jsx";
+
+// Landing + NotFound stay in the main bundle — Landing is the front door
+// (hit by ~every visitor), NotFound is the catch-all and tiny.
+//
+// Everything else is code-split per route. Cuts the initial bundle ~60%
+// and improves LCP on the routes that get the most traffic.
+const Try         = lazy(() => import("./routes/Try.jsx"));
+const Signup      = lazy(() => import("./routes/Signup.jsx"));
+const Verify      = lazy(() => import("./routes/Verify.jsx"));
+const Account     = lazy(() => import("./routes/Account.jsx"));
+const Edition     = lazy(() => import("./routes/Edition.jsx"));
+const Archive     = lazy(() => import("./routes/Archive.jsx"));
+const Saved       = lazy(() => import("./routes/Saved.jsx"));
+const Invite      = lazy(() => import("./routes/Invite.jsx"));
+const Streak      = lazy(() => import("./routes/Streak.jsx"));
+const Today       = lazy(() => import("./routes/Today.jsx"));
+const Referrals   = lazy(() => import("./routes/Referrals.jsx"));
+const Teaser      = lazy(() => import("./routes/Teaser.jsx"));
+const Search      = lazy(() => import("./routes/Search.jsx"));
+const Discover    = lazy(() => import("./routes/Discover.jsx"));
+const Privacy     = lazy(() => import("./routes/Privacy.jsx"));
+const Terms       = lazy(() => import("./routes/Terms.jsx"));
+const About       = lazy(() => import("./routes/About.jsx"));
+const Manifesto   = lazy(() => import("./routes/Manifesto.jsx"));
+const Press       = lazy(() => import("./routes/Press.jsx"));
+const Demo        = lazy(() => import("./routes/Demo.jsx"));
+const SayHi       = lazy(() => import("./routes/SayHi.jsx"));
+const Early       = lazy(() => import("./routes/Early.jsx"));
+const Changelog   = lazy(() => import("./routes/Changelog.jsx"));
+const Unsubscribe = lazy(() => import("./routes/Unsubscribe.jsx"));
+const Admin       = lazy(() => import("./routes/Admin.jsx"));
+const Showcase    = lazy(() => import("./routes/Showcase.jsx"));
 
 export default function App() {
   return (
     <BrowserRouter>
       <a href="#main" className="skip-to-content">Skip to content</a>
       <Shortcuts />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/try" element={<Try />} />
-        <Route path="/signup" element={<Signup mode="signup" />} />
-        <Route path="/login" element={<Signup mode="login" />} />
-        <Route path="/verify" element={<Verify />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/archive" element={<Archive />} />
-        <Route path="/saved" element={<Saved />} />
-        <Route path="/edition/:slug" element={<Edition />} />
-        <Route path="/i/:token" element={<Invite />} />
-        <Route path="/streak" element={<Streak />} />
-        <Route path="/today" element={<Today />} />
-        <Route path="/referrals" element={<Referrals />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/discover" element={<Discover />} />
-        <Route path="/finance" element={<Teaser publicationId="finance" />} />
-        <Route path="/design" element={<Teaser publicationId="design" />} />
-        <Route path="/ai-research" element={<Teaser publicationId="ai-research" />} />
-        <Route path="/cybersecurity-weekly" element={<Teaser publicationId="cybersecurity-weekly" />} />
-        <Route path="/unsubscribe" element={<Unsubscribe />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/manifesto" element={<Manifesto />} />
-        <Route path="/press" element={<Press />} />
-        <Route path="/demo" element={<Demo />} />
-        <Route path="/say-hi" element={<SayHi />} />
-        <Route path="/early" element={<Early />} />
-        <Route path="/changelog" element={<Changelog />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/showcase" element={<Showcase />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<Shimmer subscript="Loading…" />}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/try" element={<Try />} />
+          <Route path="/signup" element={<Signup mode="signup" />} />
+          <Route path="/login" element={<Signup mode="login" />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/archive" element={<Archive />} />
+          <Route path="/saved" element={<Saved />} />
+          <Route path="/edition/:slug" element={<Edition />} />
+          <Route path="/i/:token" element={<Invite />} />
+          <Route path="/streak" element={<Streak />} />
+          <Route path="/today" element={<Today />} />
+          <Route path="/referrals" element={<Referrals />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/finance" element={<Teaser publicationId="finance" />} />
+          <Route path="/design" element={<Teaser publicationId="design" />} />
+          <Route path="/ai-research" element={<Teaser publicationId="ai-research" />} />
+          <Route path="/cybersecurity-weekly" element={<Teaser publicationId="cybersecurity-weekly" />} />
+          <Route path="/unsubscribe" element={<Unsubscribe />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/manifesto" element={<Manifesto />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/say-hi" element={<SayHi />} />
+          <Route path="/early" element={<Early />} />
+          <Route path="/changelog" element={<Changelog />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/showcase" element={<Showcase />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
