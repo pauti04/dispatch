@@ -53,7 +53,7 @@ export default function Search() {
   return (
     <>
       <Masthead subscript={q ? `Search · "${q}"` : "Search your editions"} />
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-12">
         <div className="text-center mb-10">
           <p className="eyebrow mb-3">Search your archive</p>
           <h2 className="font-display text-4xl text-paper leading-tight mb-3">

@@ -42,7 +42,7 @@ export default function Manifesto() {
         description="Six things Dispatch believes about reading, attention, and writing for working developers. Each paragraph commits to one thing. Read in under 90 seconds."
       />
       <Masthead subscript="Six things Dispatch believes" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">A manifesto</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           What we're trying to make.

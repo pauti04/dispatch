@@ -20,7 +20,7 @@ export default function ErrorState({
   return (
     <>
       <Masthead subscript="A problem at the press" />
-      <main className="max-w-xl mx-auto px-6 py-16 text-center" role="alert">
+      <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center" role="alert">
         <p className="eyebrow mb-4">A problem at the press</p>
         <h2 className="font-display text-3xl md:text-4xl text-paper leading-tight mb-4">
           {title}

@@ -16,7 +16,7 @@ export default function DemoModeNotice({ feature, subscript = "A demo, not a sub
     <>
       <PageMeta title={metaTitle} description={metaDesc} />
       <Masthead subscript={subscript} />
-      <main id="main" className="max-w-xl mx-auto px-6 py-20 text-center">
+      <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-20 text-center">
         <p className="eyebrow mb-4">Demo mode</p>
         <h2 className="font-display text-3xl md:text-4xl text-paper leading-tight mb-5">
           {feature || "This page"} works for real subscribers.

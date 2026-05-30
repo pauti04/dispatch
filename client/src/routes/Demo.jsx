@@ -41,7 +41,7 @@ export default function Demo() {
     return (
       <>
         <Masthead subscript="The demo couldn't load" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words mb-6">{err}</p>
           <Link to="/" className="btn-primary">Back to Dispatch</Link>
         </main>
@@ -53,7 +53,7 @@ export default function Demo() {
     return (
       <>
         <Masthead subscript="Loading today's annotated edition…" />
-        <main className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-16 text-center">
           <div className="space-y-3">
             <div className="shimmer h-8 w-3/4 mx-auto" />
             <div className="shimmer h-4 w-1/2 mx-auto" />
@@ -92,8 +92,9 @@ export default function Demo() {
       />
       <Masthead subscript="Demo · annotated edition" />
 
-      {/* Sticky CTA strip — always visible during the read */}
-      <div className="cta-strip no-print sticky top-0 z-30">
+      {/* Sticky CTA strip — always visible during the read. <nav> landmark so
+          axe doesn't flag it as orphan content outside <main>. */}
+      <nav aria-label="Subscribe" className="cta-strip no-print sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
           <p className="font-serif-body italic text-paper-dim text-sm">
             This is what subscribers received this morning. Yours would be tuned to your role.
@@ -103,9 +104,9 @@ export default function Demo() {
             <Link to="/signup" className="btn-primary">Subscribe — it's free</Link>
           </div>
         </div>
-      </div>
+      </nav>
 
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-4xl mx-auto px-6 py-12">
         {/* Intro */}
         <section className="text-center mb-12 max-w-2xl mx-auto">
           <p className="eyebrow mb-3">How to read this paper</p>
@@ -246,11 +247,14 @@ export default function Demo() {
 }
 
 function Callout({ label, body }) {
+  // role="note" (not <aside>) — these annotations are inline editorial commentary
+  // within the main demo flow, not a separate complementary region. Using <aside>
+  // here trips the "complementary nested in main" landmark rule.
   return (
-    <aside className="demo-callout">
+    <div role="note" aria-label={label} className="demo-callout">
       <div className="demo-callout-arrow" aria-hidden>↓</div>
       <p className="kicker mb-1">{label}</p>
       <p className="font-serif-body text-paper-dim text-sm leading-relaxed">{body}</p>
-    </aside>
+    </div>
   );
 }

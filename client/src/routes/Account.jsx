@@ -40,7 +40,7 @@ export default function Account() {
     return (
       <>
         <Masthead subscript="Trouble loading your account" />
-        <main className="max-w-xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{error}</p>
         </main>
       </>
@@ -50,7 +50,7 @@ export default function Account() {
     return (
       <>
         <Masthead subscript="Loading your account…" />
-        <main className="max-w-xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center">
           <p className="font-serif-body text-paper-dim italic">Just a moment…</p>
         </main>
       </>
@@ -121,7 +121,7 @@ export default function Account() {
         leftLine={user.email}
       />
 
-      <main className="max-w-3xl mx-auto px-6 py-12 space-y-12">
+      <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-12 space-y-12">
         <div className="account-subnav">
           <Link to="/archive" className="account-subnav-link">
             <span className="kicker">Back issues</span>

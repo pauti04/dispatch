@@ -26,7 +26,7 @@ export default function Streak() {
     return (
       <>
         <Masthead subscript="Streak unavailable" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{err}</p>
         </main>
       </>
@@ -51,7 +51,7 @@ export default function Streak() {
   return (
     <>
       <Masthead subscript="Your reading streak" leftLine={`Day ${localStreak?.streak ?? 1}`} />
-      <main className="max-w-2xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-12">
         <div className="text-center mb-8">
           <p className="eyebrow mb-3">Your subscription habit</p>
           <h2 className="font-display text-4xl text-paper leading-tight mb-3">

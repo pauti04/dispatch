@@ -21,7 +21,7 @@ export default function Today() {
     return (
       <>
         <Masthead subscript="Today's preview unavailable" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{err}</p>
         </main>
       </>
@@ -38,7 +38,7 @@ export default function Today() {
       />
       <Masthead subscript="Today on Dispatch · public preview" />
 
-      <div className="cta-strip no-print">
+      <nav aria-label="Subscribe" className="cta-strip no-print">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
           <p className="font-serif-body italic text-paper-dim text-sm">
             This is the default sample. Your own edition is tuned to your role, skill level, and beats.
@@ -52,7 +52,7 @@ export default function Today() {
             </Link>
           </div>
         </div>
-      </div>
+      </nav>
 
       <BriefView brief={brief} prefs={{ depth: brief.depth || "standard" }} />
     </>

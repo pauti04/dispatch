@@ -14,7 +14,7 @@ export default function Press() {
         description="Everything you need to write about Dispatch — the one-liner, the founder paragraph, screenshots, sample edition, contact. So you don't have to email asking."
       />
       <Masthead subscript="Press kit · everything in one place" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">Press kit</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           Writing about Dispatch?

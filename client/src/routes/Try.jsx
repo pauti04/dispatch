@@ -32,7 +32,7 @@ function LiveComposing({ text }) {
   return (
     <>
       <Masthead subscript="The press is composing your edition…" />
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-12">
         <div className="text-center mb-8">
           <p className="eyebrow mb-3">Live · composing</p>
           <h2 className="font-display text-3xl md:text-4xl text-paper leading-tight mb-3">
@@ -118,7 +118,7 @@ export default function Try() {
     return (
       <>
         <Masthead subscript="The press has jammed" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="eyebrow mb-4">A problem at the press</p>
           <h2 className="font-display text-3xl text-paper mb-4">We couldn't compose the preview.</h2>
           <p className="font-mono text-sm text-muted break-words mb-8">{error}</p>
@@ -134,7 +134,7 @@ export default function Try() {
     return (
       <>
         <Masthead subscript="Build your edition · no signup needed" />
-        <main className="max-w-4xl mx-auto px-6 py-12">
+        <main id="main" tabIndex={-1} className="max-w-4xl mx-auto px-6 py-12">
           <OnboardingFlow
             initial={initial}
             onSubmit={generate}
@@ -149,7 +149,7 @@ export default function Try() {
     <>
       <Masthead subscript="Preview · fresh from the wire" />
 
-      <div className="cta-strip no-print">
+      <nav aria-label="Subscribe" className="cta-strip no-print">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
           <p className="font-serif-body italic text-paper-dim text-sm">
             Like this? Get one every weekday morning, tuned to your role.
@@ -163,7 +163,7 @@ export default function Try() {
             </button>
           </div>
         </div>
-      </div>
+      </nav>
 
       <BriefView
         brief={brief}

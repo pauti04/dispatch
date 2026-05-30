@@ -56,7 +56,7 @@ export default function BriefView({ brief, prefs, header, footer, bookmarks, edi
   return (
     <>
     <ReadingProgress />
-    <main id="main" className="max-w-6xl mx-auto px-6 py-10">
+    <main id="main" tabIndex={-1} className="max-w-6xl mx-auto px-6 py-10">
       {/* Wave N+ — Founder note (when present). Surfaces atop the brief, before the lede. */}
       {brief.founder_note?.body && (
         <section className="founder-note mb-10 max-w-2xl mx-auto" aria-label="Note from the editor">

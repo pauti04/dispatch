@@ -10,7 +10,7 @@ export default function Privacy() {
         description="What data Dispatch collects, what we do with it, and what we never do. Short, in plain English."
       />
       <Masthead subscript="Privacy policy" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">The fine print</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           Privacy policy.

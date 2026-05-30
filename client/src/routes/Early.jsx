@@ -15,7 +15,7 @@ export default function Early() {
         description="An invitation to the first 100 working developers. Read Dispatch for two weeks, tell us what's broken, help shape the product. Founder-led onboarding."
       />
       <Masthead subscript="Early subscribers · first 100 working developers" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">An invitation</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           Read Dispatch for two weeks and tell us what's broken.

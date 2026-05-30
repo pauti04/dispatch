@@ -4,7 +4,7 @@ export default function Shimmer({ subscript = "Composing today's edition…" }) 
   return (
     <>
       <Masthead subscript={subscript} />
-      <main className="max-w-6xl mx-auto px-6 py-10">
+      <main id="main" tabIndex={-1} className="max-w-6xl mx-auto px-6 py-10">
         <div className="shimmer h-16 w-3/4 mx-auto mb-3" />
         <div className="shimmer h-4 w-1/3 mx-auto mb-12" />
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">

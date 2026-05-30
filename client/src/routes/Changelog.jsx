@@ -60,7 +60,7 @@ export default function Changelog() {
         description="What's changed on Dispatch this week. Hand-edited by the editor — when something lands worth mentioning, it shows up here."
       />
       <Masthead subscript="What changed this week" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">Changelog</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           The week, in shipped things.

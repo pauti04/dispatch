@@ -35,7 +35,7 @@ export default function Admin() {
     <>
       <PageMeta title="Editor's desk · admin" description="Dispatch admin dashboard." />
       <Masthead subscript="Editor's desk · admin" />
-      <main id="main" className="max-w-5xl mx-auto px-6 py-10">
+      <main id="main" tabIndex={-1} className="max-w-5xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
           <div>
             <p className="eyebrow mb-1">Editor's desk</p>

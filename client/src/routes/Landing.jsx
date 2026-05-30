@@ -17,14 +17,17 @@ function LedeBanner() {
   }, []);
   if (!text) return null;
   return (
-    <div className="lede-banner">
+    // Live banner with today's headline — sits above the masthead. Tagged as a
+    // landmark via role="region" + aria-label so axe doesn't flag it as orphan
+    // content outside <main>.
+    <section role="region" aria-label="Today's headline" className="lede-banner">
       <div className="max-w-6xl mx-auto px-6 py-2.5 flex items-center gap-4">
         <span className="kicker shrink-0">Today's lede</span>
         <span className="font-serif-body italic text-paper-dim text-sm leading-tight truncate">
           {text}
         </span>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -317,6 +320,7 @@ export default function Landing() {
       <LedeBanner />
       <Masthead subscript="The morning paper for working developers" />
 
+      <main id="main" tabIndex={-1}>
       {/* Hero — sharper, more opinionated. Lead with the problem, then the product. */}
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
         <p className="eyebrow mb-5">Dispatch · Tech</p>
@@ -370,6 +374,7 @@ export default function Landing() {
           </Link>
         </div>
       </section>
+      </main>
 
       <Footer />
     </>

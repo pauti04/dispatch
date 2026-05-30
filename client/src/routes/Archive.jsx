@@ -26,7 +26,7 @@ export default function Archive() {
     return (
       <>
         <Masthead subscript="Archive unavailable" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{error}</p>
         </main>
       </>
@@ -36,7 +36,7 @@ export default function Archive() {
   return (
     <>
       <Masthead subscript="Back issues" />
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <p className="eyebrow mb-3">The archive</p>
           <h2 className="font-display text-4xl md:text-5xl text-paper leading-tight mb-3">

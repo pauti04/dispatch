@@ -10,7 +10,7 @@ export default function NotFound() {
         description="That page has gone to press elsewhere. Back to Dispatch."
       />
       <Masthead subscript="The page has gone to press elsewhere" />
-      <main className="max-w-2xl mx-auto px-6 py-20 text-center">
+      <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-20 text-center">
         <p className="eyebrow mb-5">404 · Page not found</p>
         <div className="font-display text-[10rem] md:text-[14rem] text-gold leading-none mb-6">
           404

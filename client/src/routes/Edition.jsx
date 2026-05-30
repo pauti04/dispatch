@@ -100,7 +100,7 @@ export default function Edition() {
     return (
       <>
         <Masthead subscript="Edition unavailable" />
-        <main className="max-w-xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{error}</p>
         </main>
       </>
@@ -125,7 +125,7 @@ export default function Edition() {
       />
       <Masthead subscript={`Edition for ${dateLabel}`} />
 
-      <div className="cta-strip no-print">
+      <nav aria-label="Edition actions" className="cta-strip no-print">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
           <p className="font-serif-body italic text-paper-dim text-sm">
             Saved this edition. Share it?
@@ -234,7 +234,7 @@ export default function Edition() {
             </a>
           </div>
         </div>
-      </div>
+      </nav>
 
       {audioOpen && (
         <div className="max-w-6xl mx-auto px-6 mt-3">

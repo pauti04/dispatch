@@ -84,7 +84,7 @@ export default function Teaser({ publicationId }) {
     return (
       <>
         <Masthead subscript="Section not found" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-serif-body text-paper-dim italic">
             We're not running a section by that name yet. <Link to="/" className="text-gold">Back to Dispatch.</Link>
           </p>
@@ -101,7 +101,7 @@ export default function Teaser({ publicationId }) {
       />
       <Masthead subscript="Coming soon · join the list" />
 
-      <main className={`max-w-3xl mx-auto px-6 py-16 ${pub.palette_class}`}>
+      <main id="main" tabIndex={-1} className={`max-w-3xl mx-auto px-6 py-16 ${pub.palette_class}`}>
         <div className="text-center">
           <p className="eyebrow mb-5">Upcoming section</p>
           <h2 className="font-display text-5xl md:text-6xl text-paper leading-[1.05] mb-6">

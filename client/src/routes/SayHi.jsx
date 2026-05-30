@@ -14,7 +14,7 @@ export default function SayHi() {
         description="One way to start a conversation with the editor. Tell us what you'd change about today's brief, what's broken on the demo, or what you'd want from Dispatch · Tech."
       />
       <Masthead subscript="Say hi to the editor" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">From the editor's desk</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           The inbox is open.

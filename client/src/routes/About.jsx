@@ -10,7 +10,7 @@ export default function About() {
         description="Why Dispatch was built — the morning newspaper recast for working developers. What we believe, who builds this, and what's explicitly out of scope."
       />
       <Masthead subscript="About Dispatch" />
-      <main className="legal-page">
+      <main id="main" tabIndex={-1} className="legal-page">
         <p className="eyebrow text-center mb-3">A short history</p>
         <h2 className="font-display text-4xl md:text-5xl text-paper text-center leading-tight mb-3">
           Why we built Dispatch.

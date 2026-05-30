@@ -75,7 +75,7 @@ export default function Signup({ mode = "signup" }) {
     return (
       <>
         <Masthead subscript="Check your inbox" />
-        <main className="max-w-xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center">
           <p className="eyebrow mb-4">We sent you a link</p>
           <h2 className="font-display text-3xl text-paper mb-4">Open the email from Dispatch.</h2>
           <p className="font-serif-body text-paper-dim leading-relaxed">
@@ -100,7 +100,7 @@ export default function Signup({ mode = "signup" }) {
   return (
     <>
       <Masthead subscript={isSignup ? "Subscribe to your edition" : "Welcome back"} />
-      <main className="max-w-xl mx-auto px-6 py-16">
+      <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16">
         <p className="eyebrow mb-3 text-center">{isSignup ? "One more step" : "Sign in"}</p>
         <h2 className="font-display text-4xl text-paper text-center mb-4">
           {isSignup ? "Get your first brief tomorrow morning." : "Sign in with your email."}

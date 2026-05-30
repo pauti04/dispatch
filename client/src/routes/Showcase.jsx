@@ -22,7 +22,7 @@ export default function Showcase() {
         description="An AI-curated daily morning brief for working developers — built from scratch as a portfolio piece. Editorial voice, career-grounded curation, single-developer-shipped product."
       />
       <Masthead subscript="A portfolio project · built from scratch" />
-      <main id="main" className="max-w-6xl mx-auto px-6 py-12">
+      <main id="main" tabIndex={-1} className="max-w-6xl mx-auto px-6 py-12">
         {/* Pitch */}
         <section className="text-center max-w-3xl mx-auto mb-16">
           <p className="eyebrow mb-3">A morning newspaper, redrawn for software</p>

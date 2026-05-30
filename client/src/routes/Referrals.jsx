@@ -35,7 +35,7 @@ export default function Referrals() {
     return (
       <>
         <Masthead subscript="Referrals unavailable" />
-        <main className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <main id="main" tabIndex={-1} className="max-w-2xl mx-auto px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted break-words">{err}</p>
         </main>
       </>
@@ -48,7 +48,7 @@ export default function Referrals() {
     <>
       <Masthead subscript="Referrals" />
 
-      <main className="max-w-3xl mx-auto px-6 py-12 space-y-12">
+      <main id="main" tabIndex={-1} className="max-w-3xl mx-auto px-6 py-12 space-y-12">
         <section className="text-center">
           <p className="eyebrow mb-3">Your invite stats</p>
           <h2 className="font-display text-4xl text-paper leading-tight mb-3">

@@ -29,7 +29,7 @@ export default function Verify() {
   return (
     <>
       <Masthead subscript={state.loading ? "Verifying your link…" : "Sign-in failed"} />
-      <main className="max-w-xl mx-auto px-6 py-16 text-center">
+      <main id="main" tabIndex={-1} className="max-w-xl mx-auto px-6 py-16 text-center">
         {state.loading ? (
           <p className="font-serif-body text-paper-dim text-lg italic">Just a moment…</p>
         ) : (
