@@ -72,3 +72,74 @@ jobs:
           test -f dist/sample-brief.json || (echo "missing static brief" && exit 1)
           test -f dist/robots.txt || (echo "missing robots.txt" && exit 1)
           ls -la dist/
+
+  audit:
+    name: Quality audits
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build  # cheap signal; the client must at least compile first
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci --no-audit --no-fund
+
+      - name: Install audit dependencies
+        run: npm install --no-save --no-audit --no-fund playwright @axe-core/playwright axe-core
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build client
+        working-directory: client
+        run: npm run build
+
+      - name: Start vite preview on 0.0.0.0:4173
+        working-directory: client
+        run: |
+          # 0.0.0.0 binds the preview to the runner's network IP, which we use
+          # below so window.location.hostname triggers IS_STATIC_ONLY (audits
+          # depend on it being a non-localhost hostname).
+          nohup npx vite preview --port 4173 --host 0.0.0.0 > /tmp/preview.log 2>&1 &
+          for i in $(seq 1 20); do
+            if curl -sf http://127.0.0.1:4173/ > /dev/null; then
+              echo "Preview up after ${i} polls"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Capture runner IP
+        id: runner-ip
+        run: |
+          # Pick a non-loopback IPv4 the audit scripts can use as a
+          # "static-only" hostname.
+          IP=$(hostname -I | awk '{print $1}')
+          echo "ip=${IP}" >> $GITHUB_OUTPUT
+          echo "URL=http://${IP}:4173" >> $GITHUB_ENV
+          echo "Runner IP: ${IP}"
+
+      - name: Accessibility audit (axe-core)
+        run: node scripts/audit-a11y.js
+
+      - name: Per-page meta + canonical audit
+        run: node scripts/audit-polish.js
+
+      - name: Static-only mode audit
+        run: node scripts/audit-static-only.js
+
+      - name: SPA 404 catch-all check
+        run: node scripts/check-404.js
+
+      - name: Stop preview
+        if: always()
+        run: pkill -f "vite preview" || true

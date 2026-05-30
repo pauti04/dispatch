@@ -121,6 +121,8 @@ await browser.close();
 
 console.log("\n" + "=".repeat(78));
 console.log(`\nTotal issues: ${issues.length}\n`);
+// Non-zero exit so CI fails on any regression.
+if (issues.length > 0) process.exitCode = 1;
 const byKind = {};
 for (const i of issues) {
   byKind[i.kind] ||= [];

@@ -57,6 +57,13 @@ await browser.close();
 
 console.log("\n" + "=".repeat(78));
 console.log(`\nTotal violations: ${allViolations.length}\n`);
+// Non-zero exit on any critical or serious violation. Moderate/minor are
+// reported but don't fail CI — leaves room for the gray-area rules.
+const blocking = allViolations.filter((v) => v.impact === "critical" || v.impact === "serious");
+if (blocking.length > 0) {
+  console.log(`\nBLOCKING (critical + serious): ${blocking.length}`);
+  process.exitCode = 1;
+}
 
 // Group by rule id + impact
 const byRule = {};
