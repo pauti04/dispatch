@@ -21,6 +21,7 @@ Editorial voice. Career-grounded curation. Five minutes, five things, four hundr
 [![CI](https://github.com/pauti04/dispatch/actions/workflows/ci.yml/badge.svg)](https://github.com/pauti04/dispatch/actions/workflows/ci.yml)
 [![A11y](https://img.shields.io/badge/a11y-0%20violations-3FB950?style=flat-square)](scripts/audit-a11y.js)
 [![Best Practices](https://img.shields.io/badge/lighthouse%20BP-100-3FB950?style=flat-square)](scripts/audit-lighthouse.js)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
 </div>
 
